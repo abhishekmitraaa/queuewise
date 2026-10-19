@@ -161,6 +161,23 @@ def test_compare_configs_validation_points_at_config(api_request_body):
     assert mixed.status_code == 422
 
 
+def _heavy(body, rate_mbps):
+    heavy = copy.deepcopy(body)
+    heavy["simulation"]["duration_ms"] = 60_000
+    heavy["flows"] = [dict(heavy["flows"][0], offered_rate_mbps=rate_mbps, packet_size_bytes=1200, stop_ms=60_000)]
+    return heavy
+
+
+def test_compare_total_work_is_capped_per_request(api_request_body):
+    # ~437k packets each: under the per-run cap, but six of them exceed the per-request budget.
+    heavy = _heavy(api_request_body, 70)
+    r = client.post("/api/v1/compare", json={"configs": [heavy] * 6})
+    assert "configs" in _errors(r)
+    assert "per request" in r.json()["errors"][0]["message"]
+    r = client.post("/api/v1/compare", json={"base_config": heavy, "strategies": ["fifo", "codel", "fq_codel"]})
+    assert "strategies" in _errors(r)
+
+
 def test_responses_are_gzip_compressed(api_request_body):
     r = client.post("/api/v1/simulations", json=api_request_body, headers={"Accept-Encoding": "gzip"})
     assert r.headers.get("content-encoding") == "gzip"

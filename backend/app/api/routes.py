@@ -26,6 +26,7 @@ from .schemas import (
     CompareRequest,
     SimulationRequest,
     cross_validate,
+    request_budget_errors,
 )
 
 router = APIRouter(prefix="/api/v1")
@@ -139,6 +140,7 @@ def compare(req: CompareRequest) -> dict:
         )
     if req.configs is not None:
         errors = [e for i, cfg in enumerate(req.configs) for e in cross_validate(cfg, prefix=f"configs.{i}.")]
+        errors = errors or request_budget_errors(req.configs, "configs")
         if errors:
             raise ConfigValidationError(errors)
         runs = [_execute(run_simulation, cfg.to_config()) for cfg in req.configs]
@@ -158,6 +160,7 @@ def compare(req: CompareRequest) -> dict:
         if len(set(req.strategies)) != len(req.strategies):
             raise ConfigValidationError([{"field": "strategies", "message": "Each strategy can only be selected once."}])
         errors = cross_validate(req.base_config, prefix="base_config.")
+        errors = errors or request_budget_errors([req.base_config] * len(req.strategies), "strategies")
         if errors:
             raise ConfigValidationError(errors)
         comparison = _execute(run_controlled_comparison, req.base_config.to_config(), list(req.strategies))

@@ -21,6 +21,8 @@ MAX_FLOWS = 8
 MAX_DURATION_MS = 60_000
 MAX_SAMPLES = 2_000
 MAX_ESTIMATED_PACKETS = 600_000
+# Total across every run in one request (a comparison simulates several runs).
+MAX_ESTIMATED_PACKETS_PER_REQUEST = 1_200_000
 
 
 class _Strict(BaseModel):
@@ -87,6 +89,20 @@ class CompareRequest(_Strict):
     strategies: list[StrategyKey] | None = Field(default=None, min_length=2, max_length=3)
     configs: list[SimulationRequest] | None = Field(default=None, min_length=2, max_length=6)
     run_ids: list[str] | None = Field(default=None, min_length=2, max_length=6)
+
+
+def request_budget_errors(configs: list[SimulationRequest], field: str) -> list[dict[str, str]]:
+    """Limit the total work of one request, so multi-run comparisons can't multiply the per-run cap."""
+    total = sum(estimate_packet_count(c.to_config()) for c in configs)
+    if total <= MAX_ESTIMATED_PACKETS_PER_REQUEST:
+        return []
+    return [
+        {
+            "field": field,
+            "message": f"This comparison would simulate about {total:,} packets in total (limit {MAX_ESTIMATED_PACKETS_PER_REQUEST:,} "
+            "per request). Compare fewer runs or reduce duration or offered rates.",
+        }
+    ]
 
 
 def cross_validate(req: SimulationRequest, prefix: str = "") -> list[dict[str, str]]:
