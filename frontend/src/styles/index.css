@@ -29,7 +29,17 @@
   --color-info: #3a5fb0;
   --color-danger: #c42d39;
 
-  /* Categorical chart series, validated with the dataviz palette checker. */
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/*
+  Categorical chart series, validated with the dataviz palette checker.
+  Declared on :root (not in @theme) so they are always emitted: they are only
+  referenced from JavaScript as var(--color-sN), which Tailwind cannot detect.
+*/
+:root {
   --color-s1: #2a78d6;
   --color-s2: #eb6834;
   --color-s3: #1baf7a;
@@ -39,10 +49,6 @@
   --color-s7: #6250d6;
   --color-s8: #e34948;
   --color-series-total: #4b5263;
-
-  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
-
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /*
