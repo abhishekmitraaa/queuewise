@@ -153,7 +153,9 @@ The repository is ready for Vercel:
 - `api/index.py` is that function. It imports the same FastAPI app from `backend/app/main.py`.
 - The root `requirements.txt` lists the function's runtime dependencies (FastAPI, Pydantic).
 
-Deploy with the Vercel CLI from the project root:
+The Vercel project is connected to the GitHub repository, so **every push to `main` deploys to production automatically** (live at https://queuewise-nine.vercel.app). Pushes to other branches create preview deployments.
+
+To deploy manually instead, use the Vercel CLI from the project root:
 
 ```bash
 vercel link          # first time only: create or select the Vercel project
