@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Download } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { CircleCheck, Download, TriangleAlert } from "lucide-react";
 import { downloadText } from "../lib/exportData";
 
 interface Props {
@@ -26,22 +27,33 @@ export function ExportControls({ filenameBase, json, csv, label = "Export this r
   };
 
   return (
-    <section className="panel flex flex-wrap items-center gap-3 p-4" aria-label={label}>
+    <section className="panel flex flex-wrap items-center gap-3 border-accent/30 bg-accent-soft/50 px-5 py-4" aria-label={label}>
       <div className="mr-auto">
-        <div className="font-display text-[15px] font-semibold text-ink">{label}</div>
-        <div className="text-xs text-ink-3">
-          JSON: configuration, seed, metrics, findings and simulator version. CSV: one row per time-series sample.
-        </div>
+        <div className="font-semibold tracking-tight text-ink">{label}</div>
+        <div className="text-xs text-ink-2">JSON keeps configuration, seed, metrics, findings and simulator version. CSV has one row per sample.</div>
       </div>
-      <button type="button" className="btn-secondary" onClick={() => run("json")}>
+      <button type="button" className="btn-primary" onClick={() => run("json")}>
         <Download size={15} aria-hidden="true" /> Export JSON
       </button>
       <button type="button" className="btn-secondary" onClick={() => run("csv")}>
         <Download size={15} aria-hidden="true" /> Export CSV
       </button>
-      <p role="status" aria-live="polite" className={`w-full text-xs ${state.status === "error" ? "text-danger" : "text-positive"}`}>
-        {state.status === "idle" ? "" : state.message}
-      </p>
+      <div role="status" aria-live="polite" className={`w-full text-xs ${state.status === "error" ? "text-danger" : "text-positive"}`}>
+        <AnimatePresence mode="wait">
+          {state.status !== "idle" && (
+            <motion.span
+              key={state.message}
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="inline-flex items-center gap-1.5 opacity-90"
+            >
+              {state.status === "done" ? <CircleCheck size={13} aria-hidden="true" /> : <TriangleAlert size={13} aria-hidden="true" />}
+              {state.message}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </div>
     </section>
   );
 }

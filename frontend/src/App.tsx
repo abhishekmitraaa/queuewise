@@ -7,7 +7,7 @@ import { MethodologyPage } from "./pages/MethodologyPage";
 import { useHashRoute } from "./lib/useHashRoute";
 import type { Comparison, RunResult, Scenario, SessionRun, SimulationConfig, StrategyInfo, StrategyKey } from "./types";
 
-const HEALTH_POLL_MS = 10_000;
+const HEALTH_POLL_MS = 15_000;
 
 function clone<T>(v: T): T {
   return JSON.parse(JSON.stringify(v));

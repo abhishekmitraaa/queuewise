@@ -214,6 +214,7 @@ More detail: [docs/ALGORITHM_NOTES.md](docs/ALGORITHM_NOTES.md) and the in-app *
 | Node.js / npm | 22.18.0 / 10.9.3 |
 | React / TypeScript / Vite | 18.3.1 / 5.8.3 / 6.4.4 |
 | Tailwind CSS / Recharts / lucide-react | 4.3.3 / 2.15.4 / 0.511.0 |
-| Fonts | IBM Plex Sans and IBM Plex Sans Condensed (bundled via @fontsource) |
+| Motion (animations) | 12.43.0 |
+| Font | Geist (bundled via @fontsource-variable/geist) |
 
 References consulted: RFC 8289 (CoDel), RFC 8290 (FQ-CoDel), Jain, Chiu and Hawe (1984) on the fairness index, and the FastAPI, Pydantic, React, Vite and Recharts documentation.

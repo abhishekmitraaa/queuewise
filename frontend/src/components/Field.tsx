@@ -1,4 +1,5 @@
 import { useEffect, useId, useState, type ReactNode } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 interface FieldShellProps {
   label: string;
@@ -13,20 +14,30 @@ export function FieldShell({ label, hint, error, children }: FieldShellProps) {
   const errorId = error ? `${id}-error` : undefined;
   const describedBy = [errorId, hintId].filter(Boolean).join(" ") || undefined;
   return (
-    <div className="min-w-0">
-      <label htmlFor={id} className="mb-1 block text-xs font-medium text-ink-2">
+    <div className="flex min-w-0 flex-col gap-1.5">
+      <label htmlFor={id} className="text-xs font-medium text-ink-2">
         {label}
       </label>
       {children(id, describedBy)}
-      {error ? (
-        <p id={errorId} className="mt-1 text-xs text-danger">
-          {error}
-        </p>
-      ) : hint ? (
-        <p id={hintId} className="mt-1 text-xs text-ink-3">
-          {hint}
-        </p>
-      ) : null}
+      <AnimatePresence initial={false} mode="wait">
+        {error ? (
+          <motion.p
+            key="error"
+            id={errorId}
+            className="text-xs text-danger"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {error}
+          </motion.p>
+        ) : hint ? (
+          <p key="hint" id={hintId} className="text-xs text-ink-3">
+            {hint}
+          </p>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
@@ -50,6 +61,7 @@ export function NumberField({ label, value, onChange, step = "any", min, max, hi
     if (!(parsed === value || (Number.isNaN(parsed) && Number.isNaN(value)))) {
       setText(Number.isFinite(value) ? String(value) : "");
     }
+    // Only resync when the value changes from outside this input.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
   return (
@@ -59,7 +71,7 @@ export function NumberField({ label, value, onChange, step = "any", min, max, hi
           id={id}
           type="number"
           inputMode="decimal"
-          className="field-input"
+          className="field-input num"
           value={text}
           step={step}
           min={min}

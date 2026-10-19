@@ -6,6 +6,16 @@
     <meta name="description" content="QueueWise: a delay-aware queue management lab. Simulate bufferbloat and compare FIFO, CoDel-inspired and FQ-CoDel-inspired queueing." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>QueueWise · Queue Management Lab</title>
+    <script>
+      // Apply the saved or OS theme before first paint to avoid a flash.
+      try {
+        var t = localStorage.getItem("qw-theme");
+        if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = t;
+      } catch (e) {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

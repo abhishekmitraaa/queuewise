@@ -1,7 +1,9 @@
 import type { StrategyKey } from "../types";
 
-// Fixed categorical order (validated palette). Colour follows the entity, never rank.
-export const SERIES_COLORS = ["#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#008300", "#9085e9", "#e66767"];
+// Fixed categorical order (validated palette). Values are CSS variables so the
+// light and dark steps swap with the theme. Colour follows the entity, never rank.
+export const SERIES_COLORS = Array.from({ length: 8 }, (_, i) => `var(--color-s${i + 1})`);
+export const TOTAL_COLOR = "var(--color-series-total)";
 
 // Dash patterns are a second, non-colour channel so series stay distinguishable.
 export const SERIES_DASHES = ["", "6 4", "2 3", "10 3 2 3", "", "6 4", "2 3", "10 3 2 3"];

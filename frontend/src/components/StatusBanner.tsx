@@ -1,6 +1,8 @@
+import { motion } from "motion/react";
 import { RotateCw, ServerOff, TriangleAlert } from "lucide-react";
 import type { ApiError } from "../api/client";
 import { humanField } from "../lib/format";
+import { EASE_OUT } from "../lib/motion";
 
 interface Props {
   error: ApiError;
@@ -9,29 +11,22 @@ interface Props {
 }
 
 export function StatusBanner({ error, onRetry, validationHint }: Props) {
-  if (error.isOffline) {
-    return (
-      <div role="alert" className="flex flex-wrap items-start gap-3 rounded-lg border border-danger/40 bg-danger/10 px-4 py-3 text-sm">
-        <ServerOff size={18} className="mt-0.5 shrink-0 text-danger" aria-hidden="true" />
-        <div className="min-w-0 flex-1">
-          <div className="font-semibold text-ink">Simulator backend unavailable</div>
-          <div className="text-ink-2">{error.message}</div>
-        </div>
-        {onRetry && (
-          <button type="button" className="btn-secondary" onClick={onRetry}>
-            <RotateCw size={15} aria-hidden="true" /> Try again
-          </button>
-        )}
-      </div>
-    );
-  }
+  const offline = error.isOffline;
+  const Icon = offline ? ServerOff : TriangleAlert;
   return (
-    <div role="alert" className="rounded-lg border border-caution/50 bg-caution/10 px-4 py-3 text-sm">
+    <motion.div
+      role="alert"
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: EASE_OUT }}
+      className={`rounded-2xl border px-4 py-3.5 text-sm ${offline ? "border-danger/40 bg-danger/8" : "border-caution/40 bg-caution/8"}`}
+    >
       <div className="flex flex-wrap items-start gap-3">
-        <TriangleAlert size={18} className="mt-0.5 shrink-0 text-caution" aria-hidden="true" />
+        <Icon size={18} className={`mt-0.5 shrink-0 ${offline ? "text-danger" : "text-caution"}`} aria-hidden="true" />
         <div className="min-w-0 flex-1">
-          <div className="font-semibold text-ink">{error.message}</div>
-          {error.errors.length > 0 && (
+          <div className="font-medium text-ink">{offline ? "Simulator backend unavailable" : error.message}</div>
+          {offline && <div className="mt-0.5 text-ink-2">{error.message}</div>}
+          {!offline && error.errors.length > 0 && (
             <ul className="mt-1.5 space-y-0.5 text-ink-2">
               {error.errors.map((e, i) => (
                 <li key={i}>
@@ -48,6 +43,6 @@ export function StatusBanner({ error, onRetry, validationHint }: Props) {
           </button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
