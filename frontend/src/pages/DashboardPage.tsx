@@ -48,11 +48,7 @@ export function DashboardPage(props: Props) {
           </motion.p>
         </div>
         {config && Number.isFinite(bufferMs) && (
-          <motion.div variants={riseChild} className="panel relative overflow-hidden p-6">
-            <div
-              className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-accent-soft blur-3xl"
-              aria-hidden="true"
-            />
+          <motion.div variants={riseChild} className="panel relative overflow-hidden border-l-4 border-l-accent p-6">
             <p className="relative text-sm text-ink-2">With these settings, a full buffer adds</p>
             <p className="relative mt-2 flex items-baseline gap-2">
               <span className="num text-5xl font-semibold tracking-tight text-accent md:text-6xl">

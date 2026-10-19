@@ -71,13 +71,13 @@ export function ScenarioSelector({ scenarios, activeId, edited, onSelect }: Prop
               {active && (
                 <motion.span
                   layoutId="scenario-active"
-                  className="pointer-events-none absolute -inset-px rounded-2xl border-2 border-accent bg-accent-soft/40"
+                  className="pointer-events-none absolute -inset-px rounded-2xl border-2 border-ink bg-raised/60"
                   transition={{ type: "spring", stiffness: 380, damping: 34 }}
                 />
               )}
               <span className="relative flex items-center justify-between gap-2">
-                <span className={`font-semibold tracking-tight ${active ? "text-accent" : "text-ink"}`}>{s.short_label}</span>
-                {active && edited && <span className="rounded-full bg-raised px-2 py-0.5 text-[11px] text-ink-2">edited</span>}
+                <span className="font-semibold tracking-tight text-ink">{s.short_label}</span>
+                {active && edited && <span className="rounded-full bg-canvas px-2 py-0.5 text-[11px] text-ink-2">edited</span>}
               </span>
               <span className="relative mt-1.5 line-clamp-2 text-[13px] leading-snug text-ink-3">{s.description}</span>
               <span className="relative mt-3 flex flex-wrap gap-1.5">

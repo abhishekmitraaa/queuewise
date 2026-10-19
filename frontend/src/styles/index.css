@@ -45,23 +45,27 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/*
+  Dark theme: warm graphite (stone-tinted charcoal, warm off-white ink) with a
+  dusty raspberry accent, rather than near-black zinc with a neon accent.
+*/
 :root[data-theme="dark"] {
-  --color-canvas: #0f1013;
-  --color-panel: #16181c;
-  --color-raised: #1d2026;
-  --color-line: #262a31;
-  --color-line-strong: #383d47;
-  --color-ink: #eceef2;
-  --color-ink-2: #a9afbc;
-  --color-ink-3: #828998;
-  --color-accent: #f05a8c;
-  --color-accent-strong: #ff79a3;
-  --color-accent-ink: #1b0711;
-  --color-accent-soft: rgb(240 90 140 / 0.14);
-  --color-positive: #5fcf8c;
-  --color-caution: #f0a65a;
-  --color-info: #8fb0f0;
-  --color-danger: #f17c7c;
+  --color-canvas: #1b1917;
+  --color-panel: #23201d;
+  --color-raised: #2c2925;
+  --color-line: #37332d;
+  --color-line-strong: #4a443d;
+  --color-ink: #efe9e1;
+  --color-ink-2: #b9b0a5;
+  --color-ink-3: #8f877c;
+  --color-accent: #e3789a;
+  --color-accent-strong: #ee93b0;
+  --color-accent-ink: #23121a;
+  --color-accent-soft: rgb(227 120 154 / 0.13);
+  --color-positive: #85c79d;
+  --color-caution: #e5a86a;
+  --color-info: #a3b6d8;
+  --color-danger: #ea8a80;
 
   --color-s1: #3987e5;
   --color-s2: #d95926;
@@ -71,7 +75,7 @@
   --color-s6: #008300;
   --color-s7: #9085e9;
   --color-s8: #e66767;
-  --color-series-total: #c9cfdb;
+  --color-series-total: #d6cec3;
 }
 
 @layer base {

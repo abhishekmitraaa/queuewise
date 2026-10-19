@@ -96,13 +96,13 @@ export function ConfigurationPanel({ config, strategies, errors, maxFlows, onCha
                   aria-checked={active}
                   onClick={() => onChange({ ...config, strategy: s.key as StrategyKey })}
                   className={`relative rounded-full px-2 py-2 text-xs font-medium leading-tight transition-colors sm:text-sm ${
-                    active ? "text-accent-ink" : "text-ink-2 hover:text-ink"
+                    active ? "text-canvas" : "text-ink-2 hover:text-ink"
                   }`}
                 >
                   {active && (
                     <motion.span
                       layoutId="strategy-pill"
-                      className="absolute inset-0 rounded-full bg-accent"
+                      className="absolute inset-0 rounded-full bg-ink"
                       transition={{ type: "spring", stiffness: 420, damping: 34 }}
                     />
                   )}
@@ -129,7 +129,7 @@ export function ConfigurationPanel({ config, strategies, errors, maxFlows, onCha
       )}
 
       <div>
-        <div className="flex gap-1 overflow-x-auto border-b border-line" role="tablist" aria-label="Configuration sections">
+        <div className="rail flex gap-1 overflow-x-auto overflow-y-hidden border-b border-line" role="tablist" aria-label="Configuration sections">
           {tabs.map((t) => {
             const active = tab === t.id;
             const count = errorCount(t.id);
@@ -152,7 +152,7 @@ export function ConfigurationPanel({ config, strategies, errors, maxFlows, onCha
                     {count}
                   </span>
                 )}
-                {active && <motion.span layoutId="config-tab" className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-accent" />}
+                {active && <motion.span layoutId="config-tab" className="absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-accent" />}
               </button>
             );
           })}
