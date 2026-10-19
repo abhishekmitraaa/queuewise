@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+backend/.venv/
+.venv/
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+
+# Tooling output
+.playwright-mcp/
+*.log
+.DS_Store
+Thumbs.db
+
+.vercel

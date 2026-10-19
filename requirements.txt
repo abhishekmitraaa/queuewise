@@ -1,0 +1,4 @@
+# Runtime dependencies for the Vercel Python function (api/index.py).
+# Local development uses backend/requirements.txt, which also includes the server and test tools.
+fastapi==0.115.12
+pydantic==2.11.4
